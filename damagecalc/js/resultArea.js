@@ -265,9 +265,7 @@ resultAreaMod = (function(){
      * @param {boolean} isCrt クリティカル判定
      */
     var calcDamage = function(damage, cards, n, isCrt){
-        console.log(cards);
         var cardArr = cards.split(",");
-        var is1stBuster = (cardArr[0] === CARD.B || cardArr[0] === CARD.NB);
         var isBusterChain = isSingleChains(cardArr, CARD.B, CARD.NB);
         var isArtsChain = isSingleChains(cardArr, CARD.A, CARD.NA);
         var isQuickChain = isSingleChains(cardArr, CARD.Q, CARD.NQ);
@@ -279,15 +277,6 @@ resultAreaMod = (function(){
             : cardArr[n-1] === CARD.A ? 1.0
             : cardArr[n-1] === CARD.Q ? 0.8
             : 1.0;
-
-        // カード順序補正
-        magnification *= n === 1 ? 1.0
-            : n === 2 ? 1.2
-            : n === 3 ? 1.4
-            : 1.0;
-
-        // 1stBusterボーナス
-        magnification += is1stBuster ? 0.5 : 0;
 
         // エクストラアタック補正
         if(n === 4) {
@@ -310,6 +299,7 @@ resultAreaMod = (function(){
     var calcBuff = function(damage, cards, n, isCrt){
         var cardArr = cards.split(",");
         var cardUp = 0;
+        var is1stBuster = (cardArr[0] === CARD.B || cardArr[0] === CARD.NB);
 
         if(cardArr[n-1] === CARD.NB || cardArr[n-1] === CARD.NA || cardArr[n-1] === CARD.NQ) {
             if (!npBuffAvail11.checked) {
@@ -333,11 +323,20 @@ resultAreaMod = (function(){
             crtUp += isCrt ? model.qCrtUp : 0;
         }
 
+        // カード順序補正
+        var sortCor = n === 1 ? 1.0
+            : n === 2 ? 1.2
+            : n === 3 ? 1.4
+            : 1.0;
+
+        // 1stBusterボーナス
+        var firstBonus = is1stBuster ? 0.5 : 0;
+
         return Math.floor(damage
             // 攻撃力強化
             * ((model.atkUp + model.dfcDown + 100) / 100)
             // カード強化・耐性ダウン
-            * ((cardUp + 100) / 100)
+            * ((((cardUp + 100) * sortCor) + (firstBonus * 100)) / 100)
             // その他強化
             * ((crtUp + model.spGrant + 100) / 100)
             );
