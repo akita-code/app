@@ -127,17 +127,25 @@ resultAreaMod = (function () {
             };
             resultList.push({
                 cardName : convertId2Name(cards),
-                fstCard : cards.substr(0, 1),
+                fstCard : cards.split(",")[0],
                 fstDmg : calcCompose(cards, 1, false)([calcDamage, calcBuff, plusBusterChainBonus]),
                 fstCrt : calcCompose(cards, 1, true)([calcDamage, calcBuff, plusBusterChainBonus]),
-                sndCard : cards.substr(2, 1),
+                sndCard : cards.split(",")[1],
                 sndDmg : calcCompose(cards, 2, false)([calcDamage, calcBuff, plusBusterChainBonus]),
                 sndCrt : calcCompose(cards, 2, true)([calcDamage, calcBuff, plusBusterChainBonus]),
-                trdCard : cards.substr(4, 1),
+                trdCard : cards.split(",")[2],
                 trdDmg : calcCompose(cards, 3, false)([calcDamage, calcBuff, plusBusterChainBonus]),
                 trdCrt : calcCompose(cards, 3, true)([calcDamage, calcBuff, plusBusterChainBonus]),
-                extDmg : calcCompose(cards, 4, false)([calcDamage, calcBuff]),
+                extDmg : calcCompose(cards, 4, false)([calcDamage, calcBuff])
             });
+            var toPer = function(n){return Math.round(n / model.basicAttack * 100);};
+            resultList[i].fstDmgPer = toPer(resultList[i].fstDmg);
+            resultList[i].fstCrtPer = toPer(resultList[i].fstCrt);
+            resultList[i].sndDmgPer = toPer(resultList[i].sndDmg);
+            resultList[i].sndCrtPer = toPer(resultList[i].sndCrt);
+            resultList[i].trdDmgPer = toPer(resultList[i].trdDmg);
+            resultList[i].trdCrtPer = toPer(resultList[i].trdCrt);
+            resultList[i].extDmgPer = toPer(resultList[i].extDmg);
         }
         return resultList;
     };
@@ -359,7 +367,7 @@ resultAreaMod = (function () {
                     if (isBAQ(r.fstCard)) {
                         ttlDmg += r.fstDmg;
                         ttlCrt += r.fstCrt;
-                        table += '<div>' + Math.round(r.fstDmg / basicAttack * 100) + '%(' + Math.round(r.fstCrt / basicAttack * 100) + '%)</div>';
+                        table += '<div>' + r.fstDmgPer + '%(' + r.fstCrtPer + '%)</div>';
                         table += '<div>' + r.fstDmg + '(' + r.fstCrt + ')</div>';
                     } else {
                         ttlDmg += npDmg;
@@ -373,7 +381,7 @@ resultAreaMod = (function () {
                     if (isBAQ(r.sndCard)) {
                         ttlDmg += r.sndDmg;
                         ttlCrt += r.sndCrt;
-                        table += '<div>' + Math.round(r.sndDmg / basicAttack * 100) + '%(' + Math.round(r.sndCrt / basicAttack * 100) + '%)</div>';
+                        table += '<div>' + r.sndDmgPer + '%(' + r.sndCrtPer + '%)</div>';
                         table += '<div>' + r.sndDmg + '(' + r.sndCrt + ')</div>';
                     } else {
                         ttlDmg += npDmg;
@@ -387,7 +395,7 @@ resultAreaMod = (function () {
                     if (isBAQ(r.trdCard)) {
                         ttlDmg += r.trdDmg;
                         ttlCrt += r.trdCrt;
-                        table += '<div>' + Math.round(r.trdDmg / basicAttack * 100) + '%(' + Math.round(r.trdCrt / basicAttack * 100) + '%)</div>';
+                        table += '<div>' + r.trdDmgPer + '%(' + r.trdCrtPer + '%)</div>';
                         table += '<div>' + r.trdDmg + '(' + r.trdCrt + ')</div>';
                     } else {
                         ttlDmg += npDmg;
@@ -400,7 +408,7 @@ resultAreaMod = (function () {
                     ttlDmg += r.extDmg;
                     ttlCrt += r.extDmg;
                     table += '<td class="col-sm-2 table-secondary">';
-                    table += '<div>' + Math.round(r.extDmg / basicAttack * 100) + '%</div>';
+                    table += '<div>' + r.extDmgPer + '%</div>';
                     table += '<div>' + r.extDmg + '</div>';
                     table += '</td>';
                 } else if(j === 5){
