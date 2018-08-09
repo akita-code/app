@@ -75,6 +75,9 @@ resultAreaMod = (function(){
         npSp: 0
     };
 
+    /**
+     * 結果となるHTMLテーブルを組み立てて返却します。
+     */
     var makeResult = function(){
         setModel();
         var basicAttack = getBasicAttack();
@@ -168,6 +171,9 @@ resultAreaMod = (function(){
         return buildHtml + table;
     };
 
+    /**
+     * 使用する基本攻撃力を取得します。（最小、平均、最大のいずれか）
+     */
     var getBasicAttack = function(){
         if(atkSel1.checked) {
             return toN(basicAttackMin.textContent);
@@ -178,6 +184,9 @@ resultAreaMod = (function(){
         }
     };
 
+    /**
+     * 選択したカード構成に対して、選択時の組み合わせリストを返却します。
+     */
     var getCardCombnationList = function(list, e, combList){
         for(var i in list) {
             e.push(list[i]);
@@ -194,6 +203,9 @@ resultAreaMod = (function(){
         return e;
     };
 
+    /**
+     * カードの組み合わせごとに計算結果を設定したリストを返却します。
+     */
     var getResultDataList = function(){
         var combList = []
         getCardCombnationList((cardSel.value + npCard.value).split(''), [], combList);
@@ -245,6 +257,8 @@ resultAreaMod = (function(){
     };
 
     /**
+     * ダメージを計算して設定します。
+     *
      * @param {number} damage ダメージ
      * @param {string} cards カードの構成
      * @param {number} n カードの順番
@@ -284,6 +298,14 @@ resultAreaMod = (function(){
         return damage;
     };
 
+    /**
+     * バフを計算してダメージに結果を反映します。
+     *
+     * @param {number} damage ダメージ
+     * @param {string} cards カードの構成
+     * @param {number} n カードの順番
+     * @param {boolean} isCrt クリティカル判定
+     */
     var calcBuff = function(damage, cards, n, isCrt){
         var cardArr = cards.split(",");
         var cardUp = 0;
@@ -320,12 +342,26 @@ resultAreaMod = (function(){
             );
     };
 
+    /**
+     * バスターチェーンボーナスをダメージに加算します。
+     *
+     * @param {number} damage ダメージ
+     * @param {string} cards カードの構成
+     */
     var plusBusterChainBonus = function(damage, cards){
         var isBusterChain = isSingleChains(cards.split(","), CARD.B, CARD.NB);
         damage += isBusterChain ? Math.floor(model.attack * 0.2) : 0;
         return damage;
     }
 
+    /**
+     * 宝具ダメージを計算して設定します。
+     *
+     * @param {number} damage ダメージ
+     * @param {string} cards カードの構成
+     * @param {number} n カードの順番
+     * @param {boolean} isCrt クリティカル判定
+     */
     var calcNpDamage = function(){
         var cardUp = 0;
         var cardCor = 0;
@@ -361,8 +397,14 @@ resultAreaMod = (function(){
             * ((model.npSp + 100) / 100)
             );
     };
-
-    var npBuffPlus = function(npBuff, npBuffSel){
+ 
+    /**
+     * 宝具使用によるバフをカテゴリごとのバフ率に加算します。
+     *
+     * @param {number} npBuff 割合
+     * @param {string} npBuffSel バフの種類
+     */
+    var plusNpBuff = function(npBuff, npBuffSel){
         var n = parseFloat(npBuff);
         switch (npBuffSel) {
             case NP_BUFF.ATK_UP:
@@ -402,6 +444,9 @@ resultAreaMod = (function(){
         }
     };
 
+    /**
+     * 計算結果保持用のモデルに画面からの値を設定します。
+     */
     var setModel = function(){
         model.attack = parseFloat(attack.value);
         model.basicAttack = getBasicAttack();
@@ -423,6 +468,13 @@ resultAreaMod = (function(){
         model.qCrtUp = parseFloat(qCrtUp.value);
     };
 
+    /**
+     * 指定のカード種類のみで構成されたチェーンかを判定します。
+     *
+     * @param {array} cardArr カード配列
+     * @param {string} card 通常カード
+     * @param {string} npCard 宝具カード
+     */
     var isSingleChains = function(cardArr, card, npCard){
         return (
             (cardArr[0] === card || cardArr[0] === npCard)
@@ -431,6 +483,11 @@ resultAreaMod = (function(){
         );
     }
 
+    /**
+     * カード種類によるテーブルセルのスタイルを返却します。
+     *
+     * @param {string} c カード
+     */
     var getCellStyle = function(c){
         if (c === CARD.B) {
             return "table-danger";
@@ -448,6 +505,11 @@ resultAreaMod = (function(){
         return "";
     };
 
+    /**
+     * カードIDからカード名称に変換して返却します。
+     *
+     * @param {string} id カードID
+     */
     var convertId2Name = function(id){
         var name = [];
         var idArr = id.split(",");
@@ -467,10 +529,18 @@ resultAreaMod = (function(){
         return name.join().replace(/,/g, "");
     }
 
+    /**
+     * 対象カードがBAQのいずれかである（宝具ではない）ことを判定します。
+     * @param {string} c カード
+     */
     var isBAQ = function(c){
         return (c === CARD.B || c === CARD.A || c === CARD.Q);
     }
 
+    /**
+     * 文字列を数字に変換します。
+     * @param {string} s 文字列
+     */
     var toN = function (s) {return Number(s);}
 
     return {
