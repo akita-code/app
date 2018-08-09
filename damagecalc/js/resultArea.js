@@ -224,7 +224,7 @@ resultAreaMod = (function(){
             // 計算系の関数を合成
             var calcCompose = function(cards, num, isCrt){
                 return function(fxArr){
-                    damage = 0;
+                    var damage = 0;
                     for(var i in fxArr) {
                         damage = fxArr[i](damage, cards, num, isCrt)
                     }
@@ -257,14 +257,15 @@ resultAreaMod = (function(){
     };
 
     /**
-     * ダメージを計算して設定します。
+     * バフ前のダメージを計算して設定します。
      *
      * @param {number} damage ダメージ
-     * @param {string} cards カードの構成
+     * @param {array} cards カードの構成
      * @param {number} n カードの順番
      * @param {boolean} isCrt クリティカル判定
      */
     var calcDamage = function(damage, cards, n, isCrt){
+        console.log(cards);
         var cardArr = cards.split(",");
         var is1stBuster = (cardArr[0] === CARD.B || cardArr[0] === CARD.NB);
         var isBusterChain = isSingleChains(cardArr, CARD.B, CARD.NB);
@@ -302,7 +303,7 @@ resultAreaMod = (function(){
      * バフを計算してダメージに結果を反映します。
      *
      * @param {number} damage ダメージ
-     * @param {string} cards カードの構成
+     * @param {array} cards カードの構成
      * @param {number} n カードの順番
      * @param {boolean} isCrt クリティカル判定
      */
@@ -312,10 +313,10 @@ resultAreaMod = (function(){
 
         if(cardArr[n-1] === CARD.NB || cardArr[n-1] === CARD.NA || cardArr[n-1] === CARD.NQ) {
             if (!npBuffAvail11.checked) {
-                npBuffPlus(npBuff1.value, npBuffSel1.value);
+                plusNpBuff(npBuff1.value, npBuffSel1.value);
             }
             if (!npBuffAvail21.checked) {
-                npBuffPlus(npBuff1.value, npBuffSel1.value);
+                plusNpBuff(npBuff1.value, npBuffSel1.value);
             }
         }
 
@@ -346,7 +347,7 @@ resultAreaMod = (function(){
      * バスターチェーンボーナスをダメージに加算します。
      *
      * @param {number} damage ダメージ
-     * @param {string} cards カードの構成
+     * @param {array} cards カードの構成
      */
     var plusBusterChainBonus = function(damage, cards){
         var isBusterChain = isSingleChains(cards.split(","), CARD.B, CARD.NB);
@@ -356,21 +357,16 @@ resultAreaMod = (function(){
 
     /**
      * 宝具ダメージを計算して設定します。
-     *
-     * @param {number} damage ダメージ
-     * @param {string} cards カードの構成
-     * @param {number} n カードの順番
-     * @param {boolean} isCrt クリティカル判定
      */
     var calcNpDamage = function(){
         var cardUp = 0;
         var cardCor = 0;
 
         if (npBuffAvail12.checked) {
-            npBuffPlus(npBuff1.value, npBuffSel1.value);
+            plusNpBuff(npBuff1.value, npBuffSel1.value);
         }
         if (npBuffAvail22.checked) {
-            npBuffPlus(npBuff2.value, npBuffSel2.value);
+            plusNpBuff(npBuff2.value, npBuffSel2.value);
         }
 
         if(npCard.value === CARD.NB) {
