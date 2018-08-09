@@ -1,7 +1,7 @@
 var basicAreaMod = basicAreaMod || {};
 
 basicAreaMod = (function (){
-
+    "use strict";
     var SERVANT_CLASS_PER_ARR = [100, 95, 105, 100, 90, 90, 110, 100, 110, 110, 100, 100, 100];
     var CLASS_ADVANTAGE_PER_2DARR = [
           [100,  50, 200, 100, 100, 100, 200, 100,  50, 100, 100, 100, 100] // セイバー
@@ -47,7 +47,6 @@ basicAreaMod = (function (){
             * (servantClassPer.value / 100)
             * (classAdvantagePer.value / 100)
             * (ttzPer.value / 100));
-        console.log(basicAttackAvr.innerText);
         basicAttackMin.innerText = Math.floor(Number(basicAttackAvr.innerText) * 0.9);
         basicAttackMax.innerText = Math.floor(Number(basicAttackAvr.innerText) * 1.1);
     };
@@ -66,18 +65,18 @@ basicAreaMod = (function (){
     };
 }());
 
-basicAreaMod.attack.addEventListener('input', function (e) {
+basicAreaMod.attack.addEventListener('input', function () {
     basicAreaMod.attack.value = Number(basicAreaMod.attack.value);
     if (basicAreaMod.attack.value.length > 5) {
         basicAreaMod.attack.value = basicAreaMod.attack.value.slice(0, 5);
     }
 }, false);
 
-basicAreaMod.attack.addEventListener('change', function (e) {
+basicAreaMod.attack.addEventListener('change', function () {
     basicAreaMod.calcBasicAttack();
 }, false);
 
-basicAreaMod.servantClassSel.addEventListener('change', function (e) {
+basicAreaMod.servantClassSel.addEventListener('change', function () {
     basicAreaMod.servantClassPer.value = basicAreaMod.getServantClassPer(
         basicAreaMod.servantClassSel.value);
     basicAreaMod.classAdvantagePer.value = basicAreaMod.getClassAdvantagePer(
@@ -85,13 +84,13 @@ basicAreaMod.servantClassSel.addEventListener('change', function (e) {
     basicAreaMod.calcBasicAttack();
 }, false);
 
-basicAreaMod.classAdvantageSel.addEventListener('change', function (e) {
+basicAreaMod.classAdvantageSel.addEventListener('change', function () {
     basicAreaMod.classAdvantagePer.value = basicAreaMod.getClassAdvantagePer(
         basicAreaMod.servantClassSel.value, basicAreaMod.classAdvantageSel.value);
     basicAreaMod.calcBasicAttack();
 }, false);
 
-basicAreaMod.ttzList.addEventListener('change', function (e) {
+basicAreaMod.ttzList.addEventListener('change', function () {
     basicAreaMod.ttzPer.value = basicAreaMod.ttzList.value;
     basicAreaMod.calcBasicAttack();
 }, false);

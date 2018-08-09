@@ -1,7 +1,8 @@
 
 var resultAreaMod = resultAreaMod || {};
 
-resultAreaMod = (function () {
+resultAreaMod = (function(){
+    "use strict";
     var attack = document.getElementById("attack");
     var calc = document.getElementById("calc");
     var result = document.getElementById("result");
@@ -74,6 +75,99 @@ resultAreaMod = (function () {
         npSp: 0
     };
 
+    var makeResult = function(){
+        setModel();
+        var basicAttack = getBasicAttack();
+        var buildHtml = "";
+        var npDmg = calcNpDamage();
+        var npDmgPer = Math.round(npDmg / basicAttack * 100);
+        buildHtml += '<div class="row bg-primary text-white mb-2"><h2>▼計算結果</h2></div>';
+        buildHtml += '<div class="row ' + getCellStyle(npCard.value) + '">';
+        buildHtml += '<div class="col-sm-3" style="font-size:1.0rem;">宝具ダメージ</div>';
+        buildHtml += '<div class="col-sm-3" style="font-size:1.0rem;">' + npDmgPer + '% / ' + npDmg + '</div>';
+        buildHtml += '</div>';
+
+        var resultList = getResultDataList();
+
+        var i, j;
+        var table = '<table id="result_table" class="table table-sm">';
+        table += '<tr class="row">';
+        table += '<th class="col-sm-2"></th>';
+        table += '<th class="col-sm-2">1st</th>';
+        table += '<th class="col-sm-2">2nd</th>';
+        table += '<th class="col-sm-2">3rd</th>';
+        table += '<th class="col-sm-2">extra</th>';
+        table += '<th class="col-sm-2">total</th>';
+        table += '</tr>';
+        for (var i in resultList) {
+            var r = resultList[i];
+            var ttlDmg = 0;
+            var ttlCrt = 0;
+            table += '<tr class="row">';
+            for (j = 0; j < 6; j++) {
+                if (j === 0) {
+                    table += '<td class="col-sm-2" style="font-size:1.2rem; display:flex; align-items:center;">';
+                    table += resultList[i].cardName + '</td>';
+                } else if(j === 1){
+                    table += '<td class="col-sm-2 ' + getCellStyle(r.fstCard) + '">';
+                    if (isBAQ(r.fstCard)) {
+                        ttlDmg += r.fstDmg;
+                        ttlCrt += r.fstCrt;
+                        table += '<div>' + r.fstDmgPer + '%(' + r.fstCrtPer + '%)</div>';
+                        table += '<div>' + r.fstDmg + '(' + r.fstCrt + ')</div>';
+                    } else {
+                        ttlDmg += npDmg;
+                        ttlCrt += npDmg;
+                        table += '<div>' + npDmgPer + '%</div>';
+                        table += '<div>' + npDmg + '</div>';
+                    }
+                    table += '</td>';
+                } else if(j === 2){
+                    table += '<td class="col-sm-2 ' + getCellStyle(r.sndCard) + '">';
+                    if (isBAQ(r.sndCard)) {
+                        ttlDmg += r.sndDmg;
+                        ttlCrt += r.sndCrt;
+                        table += '<div>' + r.sndDmgPer + '%(' + r.sndCrtPer + '%)</div>';
+                        table += '<div>' + r.sndDmg + '(' + r.sndCrt + ')</div>';
+                    } else {
+                        ttlDmg += npDmg;
+                        ttlCrt += npDmg;
+                        table += '<div>' + npDmgPer + '%</div>';
+                        table += '<div>' + npDmg + '</div>';
+                    }
+                    table += '</td>';
+                } else if(j === 3){
+                    table += '<td class="col-sm-2 ' + getCellStyle(r.trdCard) + '">';
+                    if (isBAQ(r.trdCard)) {
+                        ttlDmg += r.trdDmg;
+                        ttlCrt += r.trdCrt;
+                        table += '<div>' + r.trdDmgPer + '%(' + r.trdCrtPer + '%)</div>';
+                        table += '<div>' + r.trdDmg + '(' + r.trdCrt + ')</div>';
+                    } else {
+                        ttlDmg += npDmg;
+                        ttlCrt += npDmg;
+                        table += '<div>' + npDmgPer + '%</div>';
+                        table += '<div>' + npDmg + '</div>';
+                    }
+                    table += '</td>';
+                } else if(j === 4){
+                    ttlDmg += r.extDmg;
+                    ttlCrt += r.extDmg;
+                    table += '<td class="col-sm-2 table-secondary">';
+                    table += '<div>' + r.extDmgPer + '%</div>';
+                    table += '<div>' + r.extDmg + '</div>';
+                    table += '</td>';
+                } else if(j === 5){
+                    table += '<td class="col-sm-2 table-warning" style="display:flex; align-items:center;">';
+                    table += ttlDmg + '(' + ttlCrt + ')' + '</td>';
+                }
+            }
+            table += '</tr>';
+        }
+        table += '</table>';
+        return buildHtml + table;
+    };
+
     var getBasicAttack = function(){
         if(atkSel1.checked) {
             return toN(basicAttackMin.textContent);
@@ -84,7 +178,7 @@ resultAreaMod = (function () {
         }
     };
 
-    var getCardCombnationList = function (list, e, combList){
+    var getCardCombnationList = function(list, e, combList){
         for(var i in list) {
             e.push(list[i]);
             if (e.length >= 3) {
@@ -100,7 +194,7 @@ resultAreaMod = (function () {
         return e;
     };
 
-    var getResultDataList = function (){
+    var getResultDataList = function(){
         var combList = []
         getCardCombnationList((cardSel.value + npCard.value).split(''), [], combList);
 
@@ -226,13 +320,13 @@ resultAreaMod = (function () {
             );
     };
 
-    var plusBusterChainBonus = function (damage, cards) {
+    var plusBusterChainBonus = function(damage, cards){
         var isBusterChain = isSingleChains(cards.split(","), CARD.B, CARD.NB);
         damage += isBusterChain ? Math.floor(model.attack * 0.2) : 0;
         return damage;
     }
 
-    var calcNpDamage = function () {
+    var calcNpDamage = function(){
         var cardUp = 0;
         var cardCor = 0;
 
@@ -268,7 +362,7 @@ resultAreaMod = (function () {
             );
     };
 
-    var npBuffPlus = function (npBuff, npBuffSel) {
+    var npBuffPlus = function(npBuff, npBuffSel){
         var n = parseFloat(npBuff);
         switch (npBuffSel) {
             case NP_BUFF.ATK_UP:
@@ -308,7 +402,7 @@ resultAreaMod = (function () {
         }
     };
 
-    var setModel = function () {
+    var setModel = function(){
         model.attack = parseFloat(attack.value);
         model.basicAttack = getBasicAttack();
         model.npMagnification = parseFloat(npMagnification.value);
@@ -329,100 +423,7 @@ resultAreaMod = (function () {
         model.qCrtUp = parseFloat(qCrtUp.value);
     };
 
-    var makeResult = function() {
-        setModel();
-        var basicAttack = getBasicAttack();
-        var buildHtml = "";
-        var npDmg = calcNpDamage();
-        var npDmgPer = Math.round(npDmg / basicAttack * 100);
-        buildHtml += '<div class="row bg-primary text-white mb-2"><h2>▼計算結果</h2></div>';
-        buildHtml += '<div class="row ' + getCellStyle(npCard.value) + '">';
-        buildHtml += '<div class="col-sm-3" style="font-size:1.0rem;">宝具ダメージ</div>';
-        buildHtml += '<div class="col-sm-3" style="font-size:1.0rem;">' + npDmgPer + '% / ' + npDmg + '</div>';
-        buildHtml += '</div>';
-
-        var resultList = getResultDataList();
-
-        var i, j;
-        var table = '<table id="result_table" class="table table-sm">';
-        table += '<tr class="row">'
-        table += '<th class="col-sm-2"></th>'
-        table += '<th class="col-sm-2">1st</th>'
-        table += '<th class="col-sm-2">2nd</th>'
-        table += '<th class="col-sm-2">3rd</th>'
-        table += '<th class="col-sm-2">extra</th>'
-        table += '<th class="col-sm-2">total</th>'
-        table += '</tr>';
-        for (var i in resultList) {
-            var r = resultList[i];
-            var ttlDmg = 0;
-            var ttlCrt = 0;
-            table += '<tr class="row">';
-            for (j = 0; j < 6; j++) {
-                if (j === 0) {
-                    table += '<td class="col-sm-2" style="font-size:1.2rem; display:flex; align-items:center;">';
-                    table += resultList[i].cardName + '</td>';
-                } else if(j === 1){
-                    table += '<td class="col-sm-2 ' + getCellStyle(r.fstCard) + '">';
-                    if (isBAQ(r.fstCard)) {
-                        ttlDmg += r.fstDmg;
-                        ttlCrt += r.fstCrt;
-                        table += '<div>' + r.fstDmgPer + '%(' + r.fstCrtPer + '%)</div>';
-                        table += '<div>' + r.fstDmg + '(' + r.fstCrt + ')</div>';
-                    } else {
-                        ttlDmg += npDmg;
-                        ttlCrt += npDmg;
-                        table += '<div>' + npDmgPer + '%</div>';
-                        table += '<div>' + npDmg + '</div>';
-                    }
-                    table += '</td>';
-                } else if(j === 2){
-                    table += '<td class="col-sm-2 ' + getCellStyle(r.sndCard) + '">';
-                    if (isBAQ(r.sndCard)) {
-                        ttlDmg += r.sndDmg;
-                        ttlCrt += r.sndCrt;
-                        table += '<div>' + r.sndDmgPer + '%(' + r.sndCrtPer + '%)</div>';
-                        table += '<div>' + r.sndDmg + '(' + r.sndCrt + ')</div>';
-                    } else {
-                        ttlDmg += npDmg;
-                        ttlCrt += npDmg;
-                        table += '<div>' + npDmgPer + '%</div>';
-                        table += '<div>' + npDmg + '</div>';
-                    }
-                    table += '</td>';
-                } else if(j === 3){
-                    table += '<td class="col-sm-2 ' + getCellStyle(r.trdCard) + '">';
-                    if (isBAQ(r.trdCard)) {
-                        ttlDmg += r.trdDmg;
-                        ttlCrt += r.trdCrt;
-                        table += '<div>' + r.trdDmgPer + '%(' + r.trdCrtPer + '%)</div>';
-                        table += '<div>' + r.trdDmg + '(' + r.trdCrt + ')</div>';
-                    } else {
-                        ttlDmg += npDmg;
-                        ttlCrt += npDmg;
-                        table += '<div>' + npDmgPer + '%</div>';
-                        table += '<div>' + npDmg + '</div>';
-                    }
-                    table += '</td>';
-                } else if(j === 4){
-                    ttlDmg += r.extDmg;
-                    ttlCrt += r.extDmg;
-                    table += '<td class="col-sm-2 table-secondary">';
-                    table += '<div>' + r.extDmgPer + '%</div>';
-                    table += '<div>' + r.extDmg + '</div>';
-                    table += '</td>';
-                } else if(j === 5){
-                    table += '<td class="col-sm-2 table-warning" style="display:flex; align-items:center;">';
-                    table += ttlDmg + '(' + ttlCrt + ')' + '</td>';
-                }
-            }
-            table += '</tr>';
-        }
-        table += '</table>';
-        return buildHtml + table;
-    };
-
-    var isSingleChains = function (cardArr, card, npCard) {
+    var isSingleChains = function(cardArr, card, npCard){
         return (
             (cardArr[0] === card || cardArr[0] === npCard)
             && (cardArr[1] === card || cardArr[1] === npCard)
@@ -430,7 +431,7 @@ resultAreaMod = (function () {
         );
     }
 
-    var getCellStyle = function (c) {
+    var getCellStyle = function(c){
         if (c === CARD.B) {
             return "table-danger";
         } else if (c === CARD.A) {
@@ -447,7 +448,7 @@ resultAreaMod = (function () {
         return "";
     };
 
-    var convertId2Name = function (id) {
+    var convertId2Name = function(id){
         var name = [];
         var idArr = id.split(",");
         for(var i in idArr){
@@ -466,7 +467,7 @@ resultAreaMod = (function () {
         return name.join().replace(/,/g, "");
     }
 
-    var isBAQ = function (c) {
+    var isBAQ = function(c){
         return (c === CARD.B || c === CARD.A || c === CARD.Q);
     }
 
@@ -479,6 +480,6 @@ resultAreaMod = (function () {
     };
 }());
 
-resultAreaMod.calc.addEventListener('click', function(e){
+resultAreaMod.calc.addEventListener('click', function(){
     resultAreaMod.result.innerHTML = resultAreaMod.makeResult();
 }, false);

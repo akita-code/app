@@ -1,6 +1,7 @@
 var calcAreaMod = calcAreaMod || {};
 
 calcAreaMod = (function (){
+    "use strict";
     var npMagnification = document.getElementById("np_magnification");
     var npBuffAvail11 = document.getElementById("np_buff_avail11");
     var npBuffAvail12 = document.getElementById("np_buff_avail12");
@@ -115,45 +116,45 @@ calcAreaMod.npMagnification.addEventListener('input', function(e){
         input.value = 0;
     }
 }, false);
-calcAreaMod.atkUp.addEventListener('input', function(e){
+calcAreaMod.atkUp.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.dfcDown.addEventListener('input', function(e){
+calcAreaMod.dfcDown.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.bstUp.addEventListener('input', function(e){
+calcAreaMod.bstUp.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.artUp.addEventListener('input', function(e){
+calcAreaMod.artUp.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.qckUp.addEventListener('input', function(e){
+calcAreaMod.qckUp.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.bstDown.addEventListener('input', function(e){
+calcAreaMod.bstDown.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.artDown.addEventListener('input', function(e){
+calcAreaMod.artDown.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.qckDown.addEventListener('input', function(e){
+calcAreaMod.qckDown.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.crtUp.addEventListener('input', function(e){
+calcAreaMod.crtUp.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.spGrant.addEventListener('input', function(e){
+calcAreaMod.spGrant.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.npSp.addEventListener('input', function(e){
+calcAreaMod.npSp.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.bCrtUp.addEventListener('input', function(e){
+calcAreaMod.bCrtUp.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.aCrtUp.addEventListener('input', function(e){
+calcAreaMod.aCrtUp.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
-calcAreaMod.qCrtUp.addEventListener('input', function(e){
+calcAreaMod.qCrtUp.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
