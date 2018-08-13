@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ダメージ計算</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -38,15 +39,15 @@
             <h1>FGO簡易ダメージ計算表</h1>
             <div class="row bg-primary text-white mb-2"><h2>▼補正後攻撃力算出</h2></div>
             <div class="row">
-                <div class="col-sm-3"><label for="attack">攻撃力</label></div>
-                <div class="col-sm-4"><input id="attack" type="number" value="12221" min="1" max="99999" autofocus /></div>
+                <div class="col-sm-2"><label for="attack">攻撃力</label></div>
+                <div class="col-sm-4"><input id="attack" type="number" value="12221" pattern="^[1-9][0-9]*$" min="1" max="99999" autofocus /></div>
             </div>
             <div class="row">
-                <div class="col-sm-3"><label for="correction_value">固定補正値</label></div>
+                <div class="col-sm-2"><label for="correction_value">固定補正値</label></div>
                 <div class="col-sm-3"><input class="col-sm-6" id="correction_value" type="number" value="23" disabled />%</div>
             </div>
             <div class="row">
-                <div class="col-sm-3"><label for="servant_class_sel">自クラス補正</label></div>
+                <div class="col-sm-2"><label for="servant_class_sel">自クラス補正</label></div>
                 <div class="col-sm-4"><select id="servant_class_sel">
                     <option value="0" selected>セイバー</option>
                     <option value="1">アーチャー</option>
@@ -65,7 +66,7 @@
                 <div class="col-sm-3"><input class="col-sm-6" id="servant_class_per" type="number" value="100" readonly />%</div>
             </div>
             <div class="row">
-                <div class="col-sm-3"><label for="class_advantage_sel">相手クラス相性</label></div>
+                <div class="col-sm-2"><label for="class_advantage_sel">相手クラス相性</label></div>
                 <div class="col-sm-4"><select id="class_advantage_sel">
                     <option value="0" selected>セイバー</option>
                     <option value="1">アーチャー</option>
@@ -84,7 +85,7 @@
                 <div class="col-sm-3"><input class="col-sm-6" id="class_advantage_per" type="number" value="100" readonly />%</div>
             </div>
             <div class="row">
-                <div class="col-sm-3"><label for="ttz_list">天地人</label></div>
+                <div class="col-sm-2"><label for="ttz_list">天地人</label></div>
                 <div class="col-sm-4"><select id="ttz_list">
                     <option value="110">有利</option>
                     <option value="100" selected>五分</option>
@@ -93,8 +94,8 @@
                 <div class="col-sm-3"><input class="col-sm-6" id="ttz_per" type="number" value="100" readonly />%</div>
             </div>
             <div class="row mt-2">
-                <div style="font-size: 1.0rem;" class="col-sm-3">補正後攻撃力</div>
-                <div style="font-size: 1.0rem;" class="col-sm-6">
+                <div style="font-size: 0.9rem;" class="col-sm-2">補正後攻撃力</div>
+                <div style="font-size: 0.9rem;" class="col-sm-6">
                     (計算使用：
                     <input type="radio" id="atk_sel1" name="atk_sel" value="1">最小
                     <input type="radio" id="atk_sel2" name="atk_sel" value="2" checked>平均
@@ -110,7 +111,7 @@
            
             <div class="row bg-primary text-white mb-2"><h2>▼バフ・デバフ計算</h2></div>
             <div class="row">
-                <div class="col-sm-3"><label for="card_">カード構成</label></div>
+                <div class="col-sm-2"><label for="card_">カード構成</label></div>
                 <div class="col-sm-4"><select id="card_sel">
                     <option value="11123">BBBAQ</option>
                     <option value="11223" selected>BBAAQ</option>
@@ -121,7 +122,7 @@
                 </select></div>
             </div>
             <div class="row">
-                <div class="col-sm-3"><label for="np_card">宝具カード</label></div>
+                <div class="col-sm-2"><label for="np_card">宝具カード</label></div>
                 <div class="col-sm-4"><select id="np_card">
                     <option value="4" selected>Buster</option>
                     <option value="5">Arts</option>
@@ -129,12 +130,12 @@
                 </select></div>
             </div>
             <div class="row">
-                <div class="col-sm-3"><label for="np_magnification">宝具倍率</label></div>
-                <div class="col-sm-3"><input class="col-sm-10" id="np_magnification" type="number" value="600" />%</div>
+                <div class="col-sm-2"><label for="np_magnification">宝具倍率</label></div>
+                <div class="col-sm-3"><input class="col-sm-10" id="np_magnification" type="number" pattern="^[0-9]+$" value="600" />%</div>
             </div>
             <div class="row">
-                <div class="col-sm-3"><label for="np_buff">宝具バフ１</label></div>
-                <div class="col-sm-3">
+                <div class="col-sm-2"><label for="np_buff">宝具バフ１</label></div>
+                <div class="col-sm-4">
                     <input type="radio" id="np_buff_avail11" name="np_buff_avail1" value="1" checked>なし
                     <input type="radio" id="np_buff_avail12" name="np_buff_avail1" value="2">攻撃前
                     <input type="radio" id="np_buff_avail13" name="np_buff_avail1" value="3">攻撃後
@@ -156,8 +157,8 @@
                 <div class="col-sm-2"><input class="col-sm-10" id="np_buff1" type="number" value="0" disabled />%</div>
             </div>
             <div class="row">
-                <div class="col-sm-3"><label for="np_buff">宝具バフ２</label></div>
-                <div class="col-sm-3">
+                <div class="col-sm-2"><label for="np_buff">宝具バフ２</label></div>
+                <div class="col-sm-4">
                     <input type="radio" id="np_buff_avail21" name="np_buff_avail2" value="1" checked>なし
                     <input type="radio" id="np_buff_avail22" name="np_buff_avail2" value="2">攻撃前
                     <input type="radio" id="np_buff_avail23" name="np_buff_avail2" value="3">攻撃後
@@ -185,16 +186,16 @@
                     <div><h3>攻撃力強化</h3></div>
                     <div class="col-sm-12 pt-sm-1 border border-primary">
                         <label class="col-sm-6" for="atk_up">攻撃力アップ</label>
-                        <input class="col-sm-3" id="atk_up" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3" id="atk_up" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                         <label class="col-sm-6" for="dfc_down">防御力ダウン</label>
-                        <input class="col-sm-3"  id="dfc_down" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="dfc_down" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                     </div>
                 </div>
                 <div class="col-sm-6" id="aria4">
                     <div><h3>宝具特攻</h3></div>
                     <div class="col-sm-12 pt-sm-1 border border-primary">
                         <label class="col-sm-6" for="np_sp">宝具[属性]特攻</label>
-                        <input class="col-sm-3"  id="np_sp" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="np_sp" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                     </div>
                 </div>
             </div>
@@ -203,34 +204,34 @@
                     <div><h3>カード強化・耐性ダウン</h3></div>
                     <div class="col-sm-12 pt-sm-1 border border-primary">
                         <label class="col-sm-6" for="bst_up">Busterアップ</label>
-                        <input class="col-sm-3"  id="bst_up" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="bst_up" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                         <label class="col-sm-6" for="art_up">Artsアップ</label>
-                        <input class="col-sm-3"  id="art_up" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="art_up" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                         <label class="col-sm-6" for="qck_up">Quickアップ</label>
-                        <input class="col-sm-3"  id="qck_up" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="qck_up" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                         <label class="col-sm-6" for="bst_down">Buster耐性ダウン</label>
-                        <input class="col-sm-3"  id="bst_down" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="bst_down" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                         <label class="col-sm-6" for="art_down">Arts耐性ダウン</label>
-                        <input class="col-sm-3"  id="art_down" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="art_down" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                         <label class="col-sm-6" for="qck_down">Quick耐性ダウン</label>
-                        <input class="col-sm-3"  id="qck_down" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="qck_down" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                     </div>
                 </div>
                 <div class="col-sm-6" id="aria3">
                     <div><h3>その他強化</h3></div>
                     <div class="col-sm-12 pt-sm-1 border border-primary">
                         <label class="col-sm-6" for="np_up">宝具威力アップ</label>
-                        <input class="col-sm-3"  id="np_up" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="np_up" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                         <label class="col-sm-6" for="crt_up">クリ威力アップ</label>
-                        <input class="col-sm-3"  id="crt_up" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="crt_up" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                         <label class="col-sm-6" for="sp_grant">特攻状態付与</label>
-                        <input class="col-sm-3"  id="sp_grant" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="sp_grant" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                         <label class="col-sm-6" for="b_crt_up">Bクリ威力アップ</label>
-                        <input class="col-sm-3"  id="b_crt_up" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="b_crt_up" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                         <label class="col-sm-6" for="a_crt_up">Aクリ威力アップ</label>
-                        <input class="col-sm-3"  id="a_crt_up" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="a_crt_up" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                         <label class="col-sm-6" for="q_crt_up">Qクリ威力アップ</label>
-                        <input class="col-sm-3"  id="q_crt_up" type="number" value="0" step="0.1" />%
+                        <input class="col-sm-3"  id="q_crt_up" type="number" pattern="^[0-9]+$" value="0" step="0.1" />%
                     </div>
                 </div>
             </div>
@@ -248,5 +249,6 @@
 <script src="./js/basicArea.js"></script>
 <script src="./js/calcArea.js"></script>
 <script src="./js/resultArea.js"></script>
+<script src="./js/other.js"></script>
 </body>
 </html>

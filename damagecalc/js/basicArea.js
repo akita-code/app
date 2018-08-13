@@ -66,7 +66,6 @@ basicAreaMod = (function (){
 }());
 
 basicAreaMod.attack.addEventListener('input', function () {
-    basicAreaMod.attack.value = Number(basicAreaMod.attack.value);
     if (basicAreaMod.attack.value.length > 5) {
         basicAreaMod.attack.value = basicAreaMod.attack.value.slice(0, 5);
     }

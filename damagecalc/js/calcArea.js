@@ -30,11 +30,8 @@ calcAreaMod = (function (){
     var qCrtUp = document.getElementById("q_crt_up"); 
     
     var inputPerCheck = function (input) {
-        input.value = parseFloat(input.value);
         if (input.value.length > 5) {
             input.value = input.value.slice(0, 5);
-        } else if (input.value === "") {
-            input.value = 0;
         }
     };
 
@@ -69,6 +66,11 @@ calcAreaMod = (function (){
     };
 }());
 
+calcAreaMod.npMagnification.addEventListener('input', function () {
+    if (calcAreaMod.npMagnification.value.length > 5) {
+        calcAreaMod.npMagnification.value = calcAreaMod.npMagnification.value.slice(0, 5);
+    }
+}, false);
 calcAreaMod.npBuffAvail11.addEventListener('change', function(e){
     if (this.checked) {
         calcAreaMod.npBuff1.disabled = true;
@@ -107,15 +109,6 @@ calcAreaMod.npBuffAvail23.addEventListener('change', function(e){
         calcAreaMod.npBuffSel2.disabled = false;
     }
 }, false);
-
-calcAreaMod.npMagnification.addEventListener('input', function(e){
-    input.value = Number(input.value);
-    if (input.value.length > 4) {
-        input.value = input.value.slice(0, 4);
-    } else if (input.value === "") {
-        input.value = 0;
-    }
-}, false);
 calcAreaMod.atkUp.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
@@ -138,6 +131,9 @@ calcAreaMod.artDown.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
 calcAreaMod.qckDown.addEventListener('input', function(){
+    calcAreaMod.inputPerCheck(this);
+}, false);
+calcAreaMod.npUp.addEventListener('input', function(){
     calcAreaMod.inputPerCheck(this);
 }, false);
 calcAreaMod.crtUp.addEventListener('input', function(){
