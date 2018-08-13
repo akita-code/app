@@ -136,9 +136,9 @@
             <div class="row">
                 <div class="col-sm-2"><label for="np_buff">宝具バフ１</label></div>
                 <div class="col-sm-4">
-                    <input type="radio" id="np_buff_avail11" name="np_buff_avail1" value="1" checked>なし
-                    <input type="radio" id="np_buff_avail12" name="np_buff_avail1" value="2">攻撃前
-                    <input type="radio" id="np_buff_avail13" name="np_buff_avail1" value="3">攻撃後
+                    <input type="radio" id="np_buff1_avail_none" name="np_buff_avail1" value="1" checked>なし
+                    <input type="radio" id="np_buff1_avail_before" name="np_buff_avail1" value="2">攻撃前
+                    <input type="radio" id="np_buff1_avail_after" name="np_buff_avail1" value="3">攻撃後
                 </div>
                 <div class="col-sm-3"><select id="np_buff_sel1" disabled >
                     <option value="0">-</option>
@@ -159,9 +159,9 @@
             <div class="row">
                 <div class="col-sm-2"><label for="np_buff">宝具バフ２</label></div>
                 <div class="col-sm-4">
-                    <input type="radio" id="np_buff_avail21" name="np_buff_avail2" value="1" checked>なし
-                    <input type="radio" id="np_buff_avail22" name="np_buff_avail2" value="2">攻撃前
-                    <input type="radio" id="np_buff_avail23" name="np_buff_avail2" value="3">攻撃後
+                    <input type="radio" id="np_buff2_avail_none" name="np_buff_avail2" value="1" checked>なし
+                    <input type="radio" id="np_buff2_avail_before" name="np_buff_avail2" value="2">攻撃前
+                    <input type="radio" id="np_buff2_avail_after" name="np_buff_avail2" value="3">攻撃後
                 </div>
                 <div class="col-sm-3"><select id="np_buff_sel2" disabled >
                     <option value="0">-</option>
@@ -236,9 +236,15 @@
                 </div>
             </div>
             <div class="row mb-4 mt-2">
-                <div class="col-sm-12">
-                    <button class="col-sm-3 btn btn-primary" id="calc" type="click">計算</button>
-                    <button class="col-sm-3 btn btn-warning" id="reset" onclick="window.location.reload();">リセット</button>
+                <div class="col-sm-6">
+                    <button class="col-sm-4 btn btn-primary" id="calc" type="click">計算</button>
+                    <button class="col-sm-4 btn btn-warning" id="reset" onclick="window.location.reload();">リセット</button>
+                </div>
+                <div class="col-sm-6" align="right">
+                    <button class="btn btn-info" id="file_export" type="click">export</button>
+                    <label>
+                        <span class="btn btn-info">import<input style="display:none" id="file_import" name="import" type="file"></span>
+                    </label>
                 </div>
             </div>
 
@@ -246,9 +252,11 @@
         </div>
 
     </form>
+<script src="./js/formMod.js"></script>
 <script src="./js/basicArea.js"></script>
 <script src="./js/calcArea.js"></script>
 <script src="./js/resultArea.js"></script>
+<script src="./js/fileIO.js"></script>
 <script src="./js/other.js"></script>
 </body>
 </html>

@@ -19,21 +19,6 @@ basicAreaMod = (function (){
         , [100, 100, 100, 100, 100, 100, 200, 100, 100, 100, 100,  50, 200] // フォーリナー
         ];
 
-    var attack = document.getElementById("attack");
-
-    var servantClassSel = document.getElementById("servant_class_sel");
-    var servantClassPer = document.getElementById("servant_class_per");
-
-    var classAdvantageSel = document.getElementById("class_advantage_sel");
-    var classAdvantagePer = document.getElementById("class_advantage_per");
-
-    var ttzList = document.getElementById("ttz_list");
-    var ttzPer = document.getElementById("ttz_per");
-
-    var basicAttackMin = document.getElementById("basic_attack_min");
-    var basicAttackAvr = document.getElementById("basic_attack_avr");
-    var basicAttackMax = document.getElementById("basic_attack_max");
-
     var getServantClassPer = function (i) {
         return SERVANT_CLASS_PER_ARR[i];
     };
@@ -43,53 +28,46 @@ basicAreaMod = (function (){
     };
 
     var calcBasicAttack = function () {
-        basicAttackAvr.innerText = Math.floor(attack.value * 0.23
-            * (servantClassPer.value / 100)
-            * (classAdvantagePer.value / 100)
-            * (ttzPer.value / 100));
-        basicAttackMin.innerText = Math.floor(Number(basicAttackAvr.innerText) * 0.9);
-        basicAttackMax.innerText = Math.floor(Number(basicAttackAvr.innerText) * 1.1);
+        formMod.basicAttackAvr.innerText = Math.floor(formMod.attack.value * 0.23
+            * (formMod.servantClassPer.value / 100)
+            * (formMod.classAdvantagePer.value / 100)
+            * (formMod.ttzPer.value / 100));
+        formMod.basicAttackMin.innerText = Math.floor(Number(formMod.basicAttackAvr.innerText) * 0.9);
+        formMod.basicAttackMax.innerText = Math.floor(Number(formMod.basicAttackAvr.innerText) * 1.1);
     };
 
     return {
-        attack: attack,
-        servantClassSel: servantClassSel,
         getServantClassPer: getServantClassPer,
-        servantClassPer: servantClassPer,
-        classAdvantageSel: classAdvantageSel,
         getClassAdvantagePer: getClassAdvantagePer,
-        classAdvantagePer: classAdvantagePer,
-        ttzList: ttzList,
-        ttzPer: ttzPer,
         calcBasicAttack: calcBasicAttack
     };
 }());
 
-basicAreaMod.attack.addEventListener('input', function () {
-    if (basicAreaMod.attack.value.length > 5) {
-        basicAreaMod.attack.value = basicAreaMod.attack.value.slice(0, 5);
+formMod.attack.addEventListener('input', function () {
+    if (formMod.attack.value.length > 5) {
+        formMod.attack.value = formMod.attack.value.slice(0, 5);
     }
 }, false);
 
-basicAreaMod.attack.addEventListener('change', function () {
+formMod.attack.addEventListener('change', function () {
     basicAreaMod.calcBasicAttack();
 }, false);
 
-basicAreaMod.servantClassSel.addEventListener('change', function () {
-    basicAreaMod.servantClassPer.value = basicAreaMod.getServantClassPer(
-        basicAreaMod.servantClassSel.value);
-    basicAreaMod.classAdvantagePer.value = basicAreaMod.getClassAdvantagePer(
-        basicAreaMod.servantClassSel.value, basicAreaMod.classAdvantageSel.value);
+formMod.servantClassSel.addEventListener('change', function () {
+    formMod.servantClassPer.value = basicAreaMod.getServantClassPer(
+        formMod.servantClassSel.value);
+    formMod.classAdvantagePer.value = basicAreaMod.getClassAdvantagePer(
+        formMod.servantClassSel.value, formMod.classAdvantageSel.value);
     basicAreaMod.calcBasicAttack();
 }, false);
 
-basicAreaMod.classAdvantageSel.addEventListener('change', function () {
-    basicAreaMod.classAdvantagePer.value = basicAreaMod.getClassAdvantagePer(
-        basicAreaMod.servantClassSel.value, basicAreaMod.classAdvantageSel.value);
+formMod.classAdvantageSel.addEventListener('change', function () {
+    formMod.classAdvantagePer.value = basicAreaMod.getClassAdvantagePer(
+        formMod.servantClassSel.value, formMod.classAdvantageSel.value);
     basicAreaMod.calcBasicAttack();
 }, false);
 
-basicAreaMod.ttzList.addEventListener('change', function () {
-    basicAreaMod.ttzPer.value = basicAreaMod.ttzList.value;
+formMod.ttzList.addEventListener('change', function () {
+    formMod.ttzPer.value = formMod.ttzList.value;
     basicAreaMod.calcBasicAttack();
 }, false);

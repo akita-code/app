@@ -3,43 +3,6 @@ var resultAreaMod = resultAreaMod || {};
 
 resultAreaMod = (function(){
     "use strict";
-    var attack = document.getElementById("attack");
-    var calc = document.getElementById("calc");
-    var result = document.getElementById("result");
-    var cardSel = document.getElementById("card_sel");
-    var npCard = document.getElementById("np_card");
-    var basicAttackMin = document.getElementById("basic_attack_min");
-    var basicAttackAvr = document.getElementById("basic_attack_avr");
-    var basicAttackMax = document.getElementById("basic_attack_max");
-    var atkSel1 = document.getElementById("atk_sel1");
-    var atkSel2 = document.getElementById("atk_sel2");
-    var atkSel3 = document.getElementById("atk_sel3");
-    var npMagnification = document.getElementById("np_magnification");
-    var npBuffAvail11 = document.getElementById("np_buff_avail11");
-    var npBuffAvail12 = document.getElementById("np_buff_avail12");
-    var npBuffAvail31 = document.getElementById("np_buff_avail13");
-    var npBuffAvail21 = document.getElementById("np_buff_avail21");
-    var npBuffAvail22 = document.getElementById("np_buff_avail22");
-    var npBuffAvail23 = document.getElementById("np_buff_avail23");
-    var npBuff1 = document.getElementById("np_buff1");
-    var npBuffSel1 = document.getElementById("np_buff_sel1");
-    var npBuff2 = document.getElementById("np_buff2");
-    var npBuffSel2 = document.getElementById("np_buff_sel2");
-    var atkUp = document.getElementById("atk_up");
-    var dfcDown = document.getElementById("dfc_down");
-    var bstUp = document.getElementById("bst_up");
-    var artUp = document.getElementById("art_up");
-    var qckUp = document.getElementById("qck_up");
-    var bstDown = document.getElementById("bst_down");
-    var artDown = document.getElementById("art_down");
-    var qckDown = document.getElementById("qck_down");
-    var npUp = document.getElementById("np_up");
-    var crtUp = document.getElementById("crt_up");
-    var spGrant = document.getElementById("sp_grant");
-    var npSp = document.getElementById("np_sp");
-    var bCrtUp = document.getElementById("b_crt_up");
-    var aCrtUp = document.getElementById("a_crt_up");
-    var qCrtUp = document.getElementById("q_crt_up");
 
     var CARD = { B: "1", A: "2", Q: "3", NB: "4", NA: "5", NQ: "6" };
     var NP_BUFF = {
@@ -59,7 +22,13 @@ resultAreaMod = (function(){
     var model = {
         attack: 0,
         basicAttack: 0,
+        cardSel: "",
+        npCard: "",
         npMagnification: 0,
+        npBuffSel1: "",
+        npBuff1: 0,
+        npBuffSel2: "",
+        npBuff2: 0,
         atkUp: 0,
         dfcDown: 0,
         cardUp: 0,
@@ -80,12 +49,13 @@ resultAreaMod = (function(){
      */
     var makeResult = function(){
         setModel();
-        var basicAttack = getBasicAttack();
+        var basicAttack = model.basicAttack;
+        var npCard = model.npCard;
         var buildHtml = "";
         var npDmg = calcNpDamage();
         var npDmgPer = Math.round(npDmg / basicAttack * 100);
         buildHtml += '<div class="row bg-primary text-white mb-2"><h2>▼計算結果</h2></div>';
-        buildHtml += '<div class="row ' + getCellStyle(npCard.value) + '">';
+        buildHtml += '<div class="row ' + getCellStyle(npCard) + '">';
         buildHtml += '<div class="col-sm-3" style="font-size:1.0rem;">宝具ダメージ</div>';
         buildHtml += '<div class="col-sm-3" style="font-size:1.0rem;">' + npDmgPer + '% / ' + npDmg + '</div>';
         buildHtml += '</div>';
@@ -172,43 +142,11 @@ resultAreaMod = (function(){
     };
 
     /**
-     * 使用する基本攻撃力を取得します。（最小、平均、最大のいずれか）
-     */
-    var getBasicAttack = function(){
-        if(atkSel1.checked) {
-            return toN(basicAttackMin.textContent);
-        } else if(atkSel2.checked) {
-            return toN(basicAttackAvr.textContent);
-        } else if(atkSel3.checked) {
-            return toN(basicAttackMax.textContent);
-        }
-    };
-
-    /**
-     * 選択したカード構成に対して、選択時の組み合わせリストを返却します。
-     */
-    var getCardCombnationList = function(list, e, combList){
-        for(var i in list) {
-            e.push(list[i]);
-            if (e.length >= 3) {
-                combList.push(e.concat().join());
-                e.pop();
-                continue;
-            }
-            var l = list.concat();
-            l.splice(i, 1);
-            e = getCardCombnationList(l, e, combList);
-        }
-        e.pop();
-        return e;
-    };
-
-    /**
      * カードの組み合わせごとに計算結果を設定したリストを返却します。
      */
     var getResultDataList = function(){
         var combList = []
-        getCardCombnationList((cardSel.value + npCard.value).split(''), [], combList);
+        getCardCombnationList((model.cardSel + model.npCard).split(''), [], combList);
 
         combList = combList.filter(function (x, i, self) {
             return self.indexOf(x) === i;
@@ -254,6 +192,25 @@ resultAreaMod = (function(){
             resultList[i].extDmgPer = toPer(resultList[i].extDmg);
         }
         return resultList;
+    };
+    
+    /**
+     * 選択したカード構成に対して、選択時の組み合わせリストを返却します。
+     */
+    var getCardCombnationList = function(list, e, combList){
+        for(var i in list) {
+            e.push(list[i]);
+            if (e.length >= 3) {
+                combList.push(e.concat().join());
+                e.pop();
+                continue;
+            }
+            var l = list.concat();
+            l.splice(i, 1);
+            e = getCardCombnationList(l, e, combList);
+        }
+        e.pop();
+        return e;
     };
 
     /**
@@ -302,11 +259,11 @@ resultAreaMod = (function(){
         var is1stBuster = (cardArr[0] === CARD.B || cardArr[0] === CARD.NB);
 
         if(cardArr[n-1] === CARD.NB || cardArr[n-1] === CARD.NA || cardArr[n-1] === CARD.NQ) {
-            if (!npBuffAvail11.checked) {
-                plusNpBuff(npBuff1.value, npBuffSel1.value);
+            if (!formMod.npBuff1AvailNone.checked) {
+                plusNpBuff(model.npBuff1, model.npBuffSel1);
             }
-            if (!npBuffAvail21.checked) {
-                plusNpBuff(npBuff1.value, npBuffSel1.value);
+            if (!formMod.npBuff1AvailNone.checked) {
+                plusNpBuff(model.npBuff2, model.npBuffSel2);
             }
         }
 
@@ -361,20 +318,20 @@ resultAreaMod = (function(){
         var cardUp = 0;
         var cardCor = 0;
 
-        if (npBuffAvail12.checked) {
-            plusNpBuff(npBuff1.value, npBuffSel1.value);
+        if (formMod.npBuff1AvailBefore.checked) {
+            plusNpBuff(model.npBuff1, model.npBuffSel1);
         }
-        if (npBuffAvail22.checked) {
-            plusNpBuff(npBuff2.value, npBuffSel2.value);
+        if (formMod.npBuff2AvailBefore.checked) {
+            plusNpBuff(model.npBuff2, model.npBuffSel2);
         }
 
-        if(npCard.value === CARD.NB) {
+        if(model.npCard === CARD.NB) {
             cardUp = model.bstUp + model.bstDown;
             cardCor = 1.5;
-        } else if(npCard.value === CARD.NA) {
+        } else if(model.npCard === CARD.NA) {
             cardUp = model.artUp + model.artDown;
             cardCor = 1.0;
-        } else if(npCard.value === CARD.NQ) {
+        } else if(model.npCard === CARD.NQ) {
             cardUp = model.qckUp + model.qckDown;
             cardCor = 0.8;
         }
@@ -426,13 +383,13 @@ resultAreaMod = (function(){
             case NP_BUFF.QCK_DOWN:
                 model.qckDown += n;
                 break;
-            case UP_BUFF.NP_UP:
+            case NP_BUFF.NP_UP:
                 model.npUp += n;
                 break;
-            case UP_BUFF.CRT_UP:
+            case NP_BUFF.CRT_UP:
                 model.crtUp += n;
                 break;
-            case UP_BUFF.SP_GRANT:
+            case NP_BUFF.SP_GRANT:
                 model.spGrant += n;
                 break;
             default:
@@ -443,24 +400,38 @@ resultAreaMod = (function(){
      * 計算結果保持用のモデルに画面からの値を設定します。
      */
     var setModel = function(){
-        model.attack = parseFloat(attack.value);
-        model.basicAttack = getBasicAttack();
-        model.npMagnification = parseFloat(npMagnification.value);
-        model.atkUp = parseFloat(atkUp.value);
-        model.dfcDown = parseFloat(dfcDown.value);
-        model.bstUp = parseFloat(bstUp.value);
-        model.artUp = parseFloat(artUp.value);
-        model.qckUp = parseFloat(qckUp.value);
-        model.bstDown = parseFloat(bstDown.value);
-        model.artDown = parseFloat(artDown.value);
-        model.qckDown = parseFloat(qckDown.value);
-        model.npUp = parseFloat(npUp.value);
-        model.crtUp = parseFloat(crtUp.value);
-        model.spGrant = parseFloat(spGrant.value);
-        model.npSp = parseFloat(npSp.value);
-        model.bCrtUp = parseFloat(bCrtUp.value);
-        model.aCrtUp = parseFloat(aCrtUp.value);
-        model.qCrtUp = parseFloat(qCrtUp.value);
+        model.attack = parseFloat(formMod.attack.value);
+        model.basicAttack = (function(){
+            if(formMod.atkSel1.checked) {
+                return Number(formMod.basicAttackMin.textContent);
+            } else if(formMod.atkSel2.checked) {
+                return Number(formMod.basicAttackAvr.textContent);
+            } else if(formMod.atkSel3.checked) {
+                return Number(formMod.basicAttackMax.textContent);
+            }
+        })();
+        model.cardSel = formMod.cardSel.value;
+        model.npCard = formMod.npCard.value;
+        model.npMagnification = Number(formMod.npMagnification.value);
+        model.npBuffSel1 = formMod.npBuffSel1.value;
+        model.npBuff1 = parseFloat(formMod.npBuff1.value);
+        model.npBuffSel2 = formMod.npBuffSel2.value;
+        model.npBuff2 = parseFloat(formMod.npBuff2.value);
+        model.atkUp = parseFloat(formMod.atkUp.value);
+        model.dfcDown = parseFloat(formMod.dfcDown.value);
+        model.bstUp = parseFloat(formMod.bstUp.value);
+        model.artUp = parseFloat(formMod.artUp.value);
+        model.qckUp = parseFloat(formMod.qckUp.value);
+        model.bstDown = parseFloat(formMod.bstDown.value);
+        model.artDown = parseFloat(formMod.artDown.value);
+        model.qckDown = parseFloat(formMod.qckDown.value);
+        model.npUp = parseFloat(formMod.npUp.value);
+        model.crtUp = parseFloat(formMod.crtUp.value);
+        model.spGrant = parseFloat(formMod.spGrant.value);
+        model.npSp = parseFloat(formMod.npSp.value);
+        model.bCrtUp = parseFloat(formMod.bCrtUp.value);
+        model.aCrtUp = parseFloat(formMod.aCrtUp.value);
+        model.qCrtUp = parseFloat(formMod.qCrtUp.value);
     };
 
     /**
@@ -532,19 +503,11 @@ resultAreaMod = (function(){
         return (c === CARD.B || c === CARD.A || c === CARD.Q);
     }
 
-    /**
-     * 文字列を数字に変換します。
-     * @param {string} s 文字列
-     */
-    var toN = function (s) {return Number(s);}
-
     return {
-        calc : calc,
-        result : result,
-        makeResult : makeResult,
+        makeResult: makeResult
     };
 }());
 
-resultAreaMod.calc.addEventListener('click', function(){
-    resultAreaMod.result.innerHTML = resultAreaMod.makeResult();
+formMod.calc.addEventListener('click', function(){
+    formMod.result.innerHTML = resultAreaMod.makeResult();
 }, false);
