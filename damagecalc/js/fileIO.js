@@ -11,9 +11,6 @@ fileIO = (function () {
             classAdvantagePer: formMod.classAdvantagePer.value,
             ttzList: formMod.ttzList.value,
             ttzPer: formMod.ttzPer.value,
-            basicAttackMin: formMod.basicAttackMin.innerText,
-            basicAttackAvr: formMod.basicAttackAvr.innerText,
-            basicAttackMax: formMod.basicAttackMax.innerText,
             atkSel1: formMod.atkSel1.checked,
             atkSel2: formMod.atkSel2.checked,
             atkSel3: formMod.atkSel3.checked,
@@ -82,9 +79,6 @@ fileIO = (function () {
                 formMod.classAdvantagePer.value = obj.classAdvantagePer;
                 formMod.ttzList.value = obj.ttzList;
                 formMod.ttzPer.value = obj.ttzPer;
-                formMod.basicAttackMin.innerText= obj.basicAttackMin;
-                formMod.basicAttackAvr.innerText = obj.basicAttackAvr;
-                formMod.basicAttackMax.innerText = obj.basicAttackMax;
                 formMod.atkSel1.checked = obj.atkSel1;
                 formMod.atkSel2.checked = obj.atkSel2;
                 formMod.atkSel3.checked = obj.atkSel3;
@@ -130,6 +124,14 @@ fileIO = (function () {
             };
         })(file);
         reader.readAsText(file);
+
+        var timer = setInterval(function () {
+            if (reader.readyState === FileReader.DONE) {
+                basicAreaMod.calcBasicAttack();
+                clearInterval(timer);
+                timer = null;
+            }
+        }, 10); 
     };
 
     return {
