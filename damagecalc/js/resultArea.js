@@ -259,10 +259,10 @@ resultAreaMod = (function(){
         var is1stBuster = (cardArr[0] === CARD.B || cardArr[0] === CARD.NB);
 
         if(cardArr[n-1] === CARD.NB || cardArr[n-1] === CARD.NA || cardArr[n-1] === CARD.NQ) {
-            if (!formMod.npBuff1AvailNone.checked) {
+            if (!formMod.npBuff1None.checked) {
                 plusNpBuff(model.npBuff1, model.npBuffSel1);
             }
-            if (!formMod.npBuff1AvailNone.checked) {
+            if (!formMod.npBuff1None.checked) {
                 plusNpBuff(model.npBuff2, model.npBuffSel2);
             }
         }
@@ -318,10 +318,10 @@ resultAreaMod = (function(){
         var cardUp = 0;
         var cardCor = 0;
 
-        if (formMod.npBuff1AvailBefore.checked) {
+        if (formMod.npBuff1Before.checked) {
             plusNpBuff(model.npBuff1, model.npBuffSel1);
         }
-        if (formMod.npBuff2AvailBefore.checked) {
+        if (formMod.npBuff2Before.checked) {
             plusNpBuff(model.npBuff2, model.npBuffSel2);
         }
 

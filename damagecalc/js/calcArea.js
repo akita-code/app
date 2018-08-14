@@ -20,39 +20,41 @@ formMod.npMagnification.addEventListener('input', function () {
         formMod.npMagnification.value = formMod.npMagnification.value.slice(0, 5);
     }
 }, false);
-formMod.npBuff1AvailNone.addEventListener('change', function(e){
+formMod.npBuff1None.addEventListener('change', function(e){
     if (this.checked) {
+        formMod.npBuff1.value = 0;
         formMod.npBuff1.disabled = true;
         formMod.npBuffSel1.value = 0;
         formMod.npBuffSel1.disabled = true;
     }
 }, false);
-formMod.npBuff2AvailNone.addEventListener('change', function(e){
+formMod.npBuff2None.addEventListener('change', function(e){
     if (this.checked) {
+        formMod.npBuff2.value = 0;
         formMod.npBuff2.disabled = true;
         formMod.npBuffSel2.value = 0;
         formMod.npBuffSel2.disabled = true;
     }
 }, false);
-formMod.npBuff1AvailBefore.addEventListener('change', function(e){
+formMod.npBuff1Before.addEventListener('change', function(e){
     if (this.checked) {
         formMod.npBuff1.disabled = false;
         formMod.npBuffSel1.disabled = false;
     }
 }, false);
-formMod.npBuff2AvailBefore.addEventListener('change', function(e){
+formMod.npBuff2Before.addEventListener('change', function(e){
     if (this.checked) {
         formMod.npBuff2.disabled = false;
         formMod.npBuffSel2.disabled = false;
     }
 }, false);
-formMod.npBuff1AvailAfter.addEventListener('change', function(e){
+formMod.npBuff1After.addEventListener('change', function(e){
     if (this.checked) {
         formMod.npBuff1.disabled = false;
         formMod.npBuffSel1.disabled = false;
     }
 }, false);
-formMod.npBuff2AvailAfter.addEventListener('change', function(e){
+formMod.npBuff2After.addEventListener('change', function(e){
     if (this.checked) {
         formMod.npBuff2.disabled = false;
         formMod.npBuffSel2.disabled = false;

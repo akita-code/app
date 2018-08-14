@@ -19,6 +19,9 @@
         input[type="number"] {
             -moz-appearance:textfield;
         }
+        html {
+            overflow-y: scroll;
+        }
         body {
             font-size: 0.8rem;
         }
@@ -136,9 +139,9 @@
             <div class="row">
                 <div class="col-sm-2"><label for="np_buff">宝具バフ１</label></div>
                 <div class="col-sm-4">
-                    <input type="radio" id="np_buff1_avail_none" name="np_buff_avail1" value="1" checked>なし
-                    <input type="radio" id="np_buff1_avail_before" name="np_buff_avail1" value="2">攻撃前
-                    <input type="radio" id="np_buff1_avail_after" name="np_buff_avail1" value="3">攻撃後
+                    <input type="radio" id="np_buff1_none" name="np_buff1" value="1" checked>なし
+                    <input type="radio" id="np_buff1_before" name="np_buff1" value="2">攻撃前
+                    <input type="radio" id="np_buff1_after" name="np_buff1" value="3">攻撃後
                 </div>
                 <div class="col-sm-3"><select id="np_buff_sel1" disabled >
                     <option value="0">-</option>
@@ -159,9 +162,9 @@
             <div class="row">
                 <div class="col-sm-2"><label for="np_buff">宝具バフ２</label></div>
                 <div class="col-sm-4">
-                    <input type="radio" id="np_buff2_avail_none" name="np_buff_avail2" value="1" checked>なし
-                    <input type="radio" id="np_buff2_avail_before" name="np_buff_avail2" value="2">攻撃前
-                    <input type="radio" id="np_buff2_avail_after" name="np_buff_avail2" value="3">攻撃後
+                    <input type="radio" id="np_buff2_none" name="np_buff2" value="1" checked>なし
+                    <input type="radio" id="np_buff2_before" name="np_buff2" value="2">攻撃前
+                    <input type="radio" id="np_buff2_after" name="np_buff2" value="3">攻撃後
                 </div>
                 <div class="col-sm-3"><select id="np_buff_sel2" disabled >
                     <option value="0">-</option>

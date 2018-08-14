@@ -1,7 +1,8 @@
 var fileIO = fileIO || {};
 
-fileIO = (function (){
-    var fileExport = function(){
+fileIO = (function () {
+    "use strict";
+    var fileExport = function () {
         var text = JSON.stringify({
             attack: formMod.attack.value,
             servantClassSel: formMod.servantClassSel.value,
@@ -19,12 +20,12 @@ fileIO = (function (){
             cardSel: formMod.cardSel.value,
             npCard: formMod.npCard.value,
             npMagnification: formMod.npMagnification.value,
-            npBuff1AvailNone: formMod.npBuff1AvailNone.checked,
-            npBuff1AvailBefore: formMod.npBuff1AvailBefore.checked,
-            npBuff1AvailAfter: formMod.npBuff1AvailAfter.checked,
-            npBuff2AvailNone: formMod.npBuff2AvailNone.checked,
-            npBuff2AvailBefore: formMod.npBuff2AvailBefore.checked,
-            npBuff2AvailAfter: formMod.npBuff2AvailAfter.checked,
+            npBuff1None: formMod.npBuff1None.checked,
+            npBuff1Before: formMod.npBuff1Before.checked,
+            npBuff1After: formMod.npBuff1After.checked,
+            npBuff2None: formMod.npBuff2None.checked,
+            npBuff2Before: formMod.npBuff2Before.checked,
+            npBuff2After: formMod.npBuff2After.checked,
             npBuff1: formMod.npBuff1.value,
             npBuffSel1: formMod.npBuffSel1.value,
             npBuff2: formMod.npBuff2.value,
@@ -62,23 +63,17 @@ fileIO = (function (){
 
     };
 
-    var fileImport = function(e){
+    var fileImport = function (e) {
         var file = e.target.files[0];
-        console.log(file.name);
-        console.log(file.size);
-        console.log(file.type);
 
         if (file.size > 10000) {
             alert("ファイルのサイズ不正");
             return;
-        } else if (file.type !== "application/json") {
-            alert("ファイルの形式不正");
-            return;
         }
 
         var reader = new FileReader();
-        reader.onload = (function(f){
-            return function(e) {
+        reader.onload = (function (f) {
+            return function (e) {
                 var obj = JSON.parse(e.target.result);
                 formMod.attack.value = obj.attack;
                 formMod.servantClassSel.value = obj.servantClassSel;
@@ -97,20 +92,20 @@ fileIO = (function (){
                 formMod.npCard.value = obj.npCard;
                 formMod.npMagnification.value = obj.npMagnification;
 
-                if (Boolean(obj.npBuff1AvailNone)) {
-                    formMod.npBuff1AvailNone.click();
-                } else if (Boolean(obj.npBuff1AvailBefore)) {
-                    formMod.npBuff1AvailBefore.click();
-                } else if (Boolean(obj.npBuff1AvailAfter)) {
-                    formMod.npBuff1AvailAfter.click();
+                if (Boolean(obj.npBuff1None)) {
+                    formMod.npBuff1None.click();
+                } else if (Boolean(obj.npBuff1Before)) {
+                    formMod.npBuff1Before.click();
+                } else if (Boolean(obj.npBuff1After)) {
+                    formMod.npBuff1After.click();
                 }
 
-                if (Boolean(obj.npBuff2AvailNone)) {
-                    formMod.npBuff2AvailNone.click();
-                } else if (Boolean(obj.npBuff2AvailBefore)) {
-                    formMod.npBuff2AvailBefore.click();
-                } else if (Boolean(obj.npBuff2AvailAfter)) {
-                    formMod.npBuff2AvailAfter.click();
+                if (Boolean(obj.npBuff2None)) {
+                    formMod.npBuff2None.click();
+                } else if (Boolean(obj.npBuff2Before)) {
+                    formMod.npBuff2Before.click();
+                } else if (Boolean(obj.npBuff2After)) {
+                    formMod.npBuff2After.click();
                 }
 
                 formMod.npBuff1.value = obj.npBuff1;
@@ -145,6 +140,11 @@ fileIO = (function (){
 
 formMod.fileExport.addEventListener('click', function(){
     fileIO.fileExport();
+}, false);
+
+// 同一ファイル2回目取り込みのためファイル名を消す
+formMod.fileImport.addEventListener('click', function(){
+    this.value = null;
 }, false);
 
 formMod.fileImport.addEventListener('change', function(e){

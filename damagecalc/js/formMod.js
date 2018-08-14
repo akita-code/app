@@ -19,12 +19,12 @@ formMod = (function (){
     var cardSel = document.getElementById("card_sel");
     var npCard = document.getElementById("np_card");
     var npMagnification = document.getElementById("np_magnification");
-    var npBuff1AvailNone = document.getElementById("np_buff1_avail_none");
-    var npBuff1AvailBefore = document.getElementById("np_buff1_avail_before");
-    var npBuff1AvailAfter = document.getElementById("np_buff1_avail_after");
-    var npBuff2AvailNone = document.getElementById("np_buff2_avail_none");
-    var npBuff2AvailBefore = document.getElementById("np_buff2_avail_before");
-    var npBuff2AvailAfter = document.getElementById("np_buff2_avail_after");
+    var npBuff1None = document.getElementById("np_buff1_none");
+    var npBuff1Before = document.getElementById("np_buff1_before");
+    var npBuff1After = document.getElementById("np_buff1_after");
+    var npBuff2None = document.getElementById("np_buff2_none");
+    var npBuff2Before = document.getElementById("np_buff2_before");
+    var npBuff2After = document.getElementById("np_buff2_after");
     var npBuff1 = document.getElementById("np_buff1");
     var npBuffSel1 = document.getElementById("np_buff_sel1");
     var npBuff2 = document.getElementById("np_buff2");
@@ -67,12 +67,12 @@ formMod = (function (){
         cardSel: cardSel,
         npCard: npCard,
         npMagnification: npMagnification,
-        npBuff1AvailNone: npBuff1AvailNone,
-        npBuff1AvailBefore: npBuff1AvailBefore,
-        npBuff1AvailAfter: npBuff1AvailAfter,
-        npBuff2AvailNone: npBuff2AvailNone,
-        npBuff2AvailBefore: npBuff2AvailBefore,
-        npBuff2AvailAfter: npBuff2AvailAfter,
+        npBuff1None: npBuff1None,
+        npBuff1Before: npBuff1Before,
+        npBuff1After: npBuff1After,
+        npBuff2None: npBuff2None,
+        npBuff2Before: npBuff2Before,
+        npBuff2After: npBuff2After,
         npBuff1: npBuff1,
         npBuffSel1: npBuffSel1,
         npBuff2: npBuff2,
